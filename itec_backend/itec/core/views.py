@@ -14,6 +14,20 @@ def index(request):
         # text = 'Foaie verde, trandafir, am baut azi-noapte vin'
         prompt = "Scrie o poezie care începe cu: \""+text+"\""+""
         poem = api.generate_poem(prompt)
+        poem = poem.split(' ')
+        lis = []
+        c = 0
+        for i in range(len(poem)):
+            if poem[i] == poem[i].capitalize():
+                nr = i+c
+                lis.append(nr)
+                c+=1
+                # poem.insert(i-1, '<br>')
+
+        # for i in lis:
+            # poem.insert(i, '<br>')
+
+        poem = ' '.join(poem)
         dic = {'poem':poem}
         return JsonResponse(dic)
     else:

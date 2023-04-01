@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'openai',
     'rest_framework',
     'corsheaders',
+    'dotenv',
 ]
 
 MIDDLEWARE = [
