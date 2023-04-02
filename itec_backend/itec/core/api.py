@@ -5,6 +5,7 @@ load_dotenv()
 
 # Set up the OpenAI API client
 openai.api_key = getenv('GPT_KEY')
+key = getenv('DALLE_KEY')
 
 # Define a function to generate poetry
 def generate_poem(prompt):
@@ -42,7 +43,7 @@ def generate_image(request):
         'size': '1024x1024',
     }
     headers = {
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer '+key,
     }
 
     response = requests.post(url, json=data, headers=headers)
