@@ -1,16 +1,29 @@
-poem = 'Ana are mere și pere, Fructe de care se bucură mult. Are și alte fructe, dar merele sunt preferatele ei.'
-poem = poem.split(' ')
-lis = []
-c = 0
-for i in range(len(poem)):
-    if poem[i] == poem[i].capitalize():
-        nr = i+c
-        lis.append(nr)
-        c+=1
-        # poem.insert(i-1, '\n')
+# import requests
+# url = 'https://api.openai.com/v1/images/generations'
 
-for i in lis:
-    poem.insert(i, '\n')
+# key = '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'
+# data = {
+#     "model": "image-alpha-001",
+#     "prompt": "a bird made of flowers",
+#     "api_key": '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'
+#     Authorization: Bearer YOUR_KEY
+# }
 
-poem = ' '.join(poem)
-print(poem)
+# response = requests.post(url, json=data)
+
+# # image_url = response.json()['data'][0]['url']
+# print(response.json())
+import requests
+url = 'https://api.openai.com/v1/images/generations'
+data = {
+    'model': 'image-alpha-001',
+    'prompt': 'a bird made of flowers',
+    'num_images': 1,
+    'size': '512x512',
+}
+headers = {
+    'Authorization': 'Bearer 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',
+}
+
+response = requests.post(url, json=data, headers=headers)
+print(response.json()['data'][0]['url'])

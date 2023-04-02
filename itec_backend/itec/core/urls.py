@@ -4,7 +4,8 @@ from . import views
 
 urlpatterns = [
 
-    path('text', views.index, name='index'),
-    path('', views.apiPost )
+    path('0', views.completionApi ),
+    path('2', views.mirrorApi),
+    path('1', views.themeApi)
 
 ]

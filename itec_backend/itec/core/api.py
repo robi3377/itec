@@ -11,7 +11,7 @@ def generate_poem(prompt):
     # Define the parameters for the GPT-3 API request
     model_engine = "text-davinci-002"
     temperature = 1
-    max_tokens = 100
+    max_tokens = 1000
 
     # Make the GPT-3 API request to generate the poem
     response = openai.Completion.create(
@@ -31,3 +31,19 @@ def generate_poem(prompt):
 
     # Return the generated poem
     return poem
+
+def generate_image(request):
+    import requests
+    url = 'https://api.openai.com/v1/images/generations'
+    data = {
+        'model': 'image-alpha-001',
+        'prompt': request,
+        'num_images': 1,
+        'size': '1024x1024',
+    }
+    headers = {
+        'Authorization': 'Bearer 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',
+    }
+
+    response = requests.post(url, json=data, headers=headers)
+    return response.json()['data'][0]['url']

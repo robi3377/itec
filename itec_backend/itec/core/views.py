@@ -8,44 +8,90 @@ from rest_framework.decorators import api_view
 # Create your views here.
 
 
-def index(request):
+
+@csrf_exempt
+def completionApi(request):
     if request.method == 'POST':
-        text = request.POST.get('prompt')
+        text = request.POST.get('promptInput')
         # text = 'Foaie verde, trandafir, am baut azi-noapte vin'
         prompt = "Scrie o poezie care începe cu: \""+text+"\""+""
+        
         poem = api.generate_poem(prompt)
         poem = poem.split(' ')
         lis = []
         c = 0
         for i in range(len(poem)):
-            if poem[i] == poem[i].capitalize():
+            if poem[i] == poem[i].capitalize() and len(poem[i])>1:
                 nr = i+c
                 lis.append(nr)
                 c+=1
-                # poem.insert(i-1, '<br>')
 
-        # for i in lis:
-            # poem.insert(i, '<br>')
+        for i in lis:
+            poem.insert(i, '\n')
 
         poem = ' '.join(poem)
-        dic = {'poem':poem}
+        url_image = api.generate_image(text)
+
+        dic = {'poem':poem, 'img':url_image}
         return JsonResponse(dic)
     else:
         return JsonResponse({'error': 'Invalid request method'})
     
-@api_view(['GET'])
-def getData(request):
-    person = {'name':'Robert', 'age':29}
-    return Response(person)
 
 @csrf_exempt
-def apiPost(request):
+def themeApi(request):
     if request.method == 'POST':
         text = request.POST.get('promptInput')
-        # text = 'Foaie verde, trandafir, am baut azi-noapte vin'
-        prompt = "Scrie o poezie care începe cu: \""+text+"\""+""
+        prompt=f"Write a poem that explores the beauty and complexity of {text}. Use rich language and descriptive imagery to capture the essence of this topic, and reflect on its significance and meaning in our lives."
+
         poem = api.generate_poem(prompt)
-        dic = {'poem':poem}
+
+        poem = poem.split(' ')
+        lis = []
+        c = 0
+        for i in range(len(poem)):
+            if poem[i] == poem[i].capitalize() and len(poem[i])>1:
+                nr = i+c
+                lis.append(nr)
+                c+=1
+
+        for i in lis:
+            poem.insert(i, '\n')
+
+        poem = ' '.join(poem)
+        prompt_img = f"Create an image that captures the essence of {text}. Use your imagination and creativity to represent this theme in a visually striking and memorable way. Consider the colors, textures, shapes, and objects that might be associated with this theme, and use them to create a composition that is both aesthetically pleasing and thematically relevant, but do NOT draw humans."
+        url_image = api.generate_image(prompt_img)
+
+        dic = {'poem':poem, 'img':url_image}
+        return JsonResponse(dic)
+    else:
+        return JsonResponse({'error': 'Invalid request method'})
+    
+@csrf_exempt
+def mirrorApi(request):
+    if request.method == 'POST':
+        text = request.POST.get('promptInput')
+        prompt="Write a poem that reflects my innermost thoughts and feelings. Use imagery and metaphor to capture the essence of my emotions and experiences: "+text
+
+        poem = api.generate_poem(prompt)
+
+        poem = poem.split(' ')
+        lis = []
+        c = 0
+        for i in range(len(poem)):
+            if poem[i] == poem[i].capitalize() and len(poem[i])>1:
+                nr = i+c
+                lis.append(nr)
+                c+=1
+
+        for i in lis:
+            poem.insert(i, '\n')
+
+        poem = ' '.join(poem)
+
+        url_image = api.generate_image(text)
+
+        dic = {'poem':poem, 'img':url_image}
         return JsonResponse(dic)
     else:
         return JsonResponse({'error': 'Invalid request method'})
